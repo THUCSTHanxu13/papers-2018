@@ -1,0 +1,102 @@
+\def\year{2018}\relax
+%File: formatting-instruction.tex
+\documentclass[letterpaper]{article} %DO NOT CHANGE THIS
+\usepackage{aaai18}  %Required
+\usepackage{times}  %Required
+\usepackage{helvet}  %Required
+\usepackage{courier}  %Required
+\usepackage{url}  %Required
+\usepackage{graphicx}  %Required
+\frenchspacing  %Required
+\setlength{\pdfpagewidth}{8.5in}  %Required
+\setlength{\pdfpageheight}{11in}  %Required
+%PDF Info Is Required:
+  \pdfinfo{
+/Title (2018 Formatting Instructions for Authors Using LaTeX)
+/Author (AAAI Press Staff)}
+\setcounter{secnumdepth}{0}  
+ \begin{document}
+% The file aaai.sty is the style file for AAAI Press 
+% proceedings, working notes, and technical reports.
+%
+\title{Joint Representation of Knowledge Graph and Text with Alternating Forward Attention for Knowledge Acquisition}
+% \author{AAAI Press\\
+% Association for the Advancement of Artificial Intelligence\\
+% 2275 East Bayshore Road, Suite 160\\
+% Palo Alto, California 94303\\
+% }
+\maketitle
+\begin{abstract}
+
+% 最近又有许多工作融合图谱和文本的特征来进行工作并取得了极好的效果。
+% 以往的工作大多依赖于图谱内部的结构特征进行图谱填充，以及挖掘和归纳文本的语义信息进行关系抽取，从而获取知识。
+% 最近联合学习模型被提出来融合图谱和文本的特征来进行工作，并取得了很好的效果。
+% 在归纳总结过去联合模型的基础上，我们提出了一个采用了交替前进的注意力机制的高效联合学习框架。
+% 该框架融合的特征可以同时针对图谱推理填充以及关系抽取两个任务.
+% 交替前进的注意力机制在特征融合的同时，也在进行对位模型的降噪强化以缓解图谱与文本模型的缺陷。
+% 实验结果表明，我们的模型在两个任务上都取得了很好的效果，验证了模型的可靠性。
+
+The current knowledge acquisition (KA) is mainly based on two tasks, knowledge graph completion (KGC) and relation extraction (RE) from text. The previous works usually mine structural features inside knowledge graphs for their completion or learn from textual semantic information to obtain relational knowledge. Some recent joint learning models have been proposed to fuse knowledge graph and text, which outperform unilateral feature methods. Inspired by the pioneering works, we propose an efficient neural joint learning framework with alternating forward attention. The framework represents knowledge graphs and text to handle KGC and RE at the same time. The interoperable attention enhances joint models via mutual noise reduction in addition to feature fusion. In experiments, we evaluate models on relation extraction and entity link prediction. The results show that the models trained under our joint framework can significantly and consistently improve in comparison with other baselines for KA.
+
+\end{abstract}
+
+% \noindent 
+\section{Introduction}
+\label{intro}
+
+People construct various knowledge graphs (KGs, also known as Knowledge Bases) to organize structural knowledge about the world. A typical knowledge graph (KG) is a multiple relational directed graph with nodes corresponding to entities and edges corresponding to relations between these entities. The facts in KGs are usually recorded as a set of relational triples ($h$, $r$, $t$) with $h$ and $t$ indicating \emph{head} and \emph{tail} entities and $r$ indicating the \emph{relation} between $h$ and $t$, e.g., (\emph{Mark Twain}, \texttt{PlaceOfBirth}, \emph{Florida}). With KGs as mediums, knowledge is able to be abstracted and play an important role in many applications such as question answering and web search.
+
+KGs are usually far from completion. There are typically two tasks to extend KGs, knowledge graph completion (KGC) and relation extraction (RE) from text. KGC aims to enrich KGs with novel facts based on the network structure of KGs, such as graph-based models \cite{lao2010relational,lao2011random}, tensor-based models \cite{socher2013reasoning,nickel2016holographic} and translating models \cite{bordes2013translating,ji2015knowledge}. RE aims to extract relational facts from the plain text. Many efforts are also devoted to this task, including kernel-based model \cite{zelenko2003kernel}, embedding-based model \cite{gormley2015improved}, and neural models \cite{socher2012semantic,zeng2014relation}. \cite{mintz2009distant} proposes a distant supervision method to align text with theknowledge to generate labeling instances, which is a milestone work for RE and also the pioneering attempt for the combination of KGs and text.
+
+Although this alignment mechanism is simple, it inspires some works to jointly consider KGs and plain text for KA. For RE, \cite{weston2013connecting} directly sum up two ranking scores of KGs and text for feature fusion. \cite{riedel2013relation} proposes universal schema to jointly embed relation types of KGs and textual patterns to extract information. \cite{vergaEtAl} incorporates neural networks into universal schema to capture pattern semantics generally. \cite{vergamccallum} proposes row-less universal schema to embed entity pairs via functions of their relation types instead of inflexible representations for each pair. For KGC, \cite{wang2014knowledge} simply aligns words in text and entities in KGs. \cite{toutanova2015representing} extracts textual relations from plain text to align with relation embeddings. \cite{zhong2015aligning,xie2016representation,wang2016text} use entity descriptions to enhance entity embeddings. 
+
+These joint models perform well with the fused features. However, these models still face the following challenges need to be solved:
+
+(1) These models usually adopt the hard joint mechanism and integrate features from KGs and text together for a single task optimization. They also need various source features for their predictions. Models \cite{zhong2015aligning,xie2016representation,wang2016text} that embed relevant text into KGs for KGC are typical hard joint models. The hard joint models trained with well aligned datasets will show a strong ability to capture features. However, not all entities and relations in KGs have aligned text, such as detailed descriptions, and their relevant contents are usually brief and lack of information. Meanwhile, these models either consider only partial information in text (entity descriptions or textual relations), which makes them even more difficult to generalize well.
+
+(2) The joint process of the soft joint models, such as universal schema and its extensions \cite{riedel2013relation,vergaEtAl}, is not carried out by direct feature integration. The models of KGs and text are abreast trained within a unified continuous latent space. The features are shared via co-occurrence entity pairs and latent relevance between knowledge relation types and textual patterns of text.
+
+
+
+
+
+
+
+% rely on general textual patterns to mine features
+  
+
+
+
+
+
+
+
+% After computing attention over sentences, we cre- ate a summary that focuses on the document parts related to the question using deterministic soft at- tention or stochastic hard attention. Hard attention is more flexible, as it can focus on multiple sen- tences, while soft attention is easier to optimize and retains information from multiple sentences.
+
+% The models are also fixed and not general, which make it difficult to incorporate some existing models.
+
+
+To address these issues, we propose a general joint representation learning framework for both KGC and RE. As shown in Figure , the framework is expected to take advantages of both KGs and text via comprehensive alignments with respect to words, entities and relations. Moreover, our method applies deep neural networks with a knowledge-based attention mechanism instead of conventional linguistic analysis to encode the semantics of sentences, which is especially suitable for modeling large-scale and noisy Web text. The knowledge-based attention uses the information of KGs to select important sentences in text, meanwhile textual relation features can also be fed back to representation learning of KGs. The framework is flexible, and most existing embedding-based methods of KGC and RE can be easily integrated into the framework.
+
+We conduct experiments on real-world datasets whose KGs are extracted from Freebase and text is derived from New York Times (NYT) corpus. We evaluate models on both KGC and RE. Experimental results demonstrate our method can effectively perform joint representation learning and obtain more informative knowledge and text representation, which significantly outperforms other baseline methods in KA from either KGs or text.
+
+\section{Related Work}
+\label{sec:related}
+Our work relates to representation learning of KGs and textual relations, joint learning for KA, and neural networks with attention. Related works are reviewed as follows.
+
+\textbf{Representation Learning of KGs.} A variety of approaches have been proposed to encode entities and relations into a continuous low-dimensional space. TransE \cite{bordes2013translating} regards the relation $r$ in each fact ($h$, $r$, $t$) as a translation from $h$ to $t$ within the low-dimensional space, i.e., $\textbf{h} + \textbf{r} = \textbf{t}$. TransE achieves good results and has many improved models, including TransH \cite{wang2014transh}, TransR \cite{lin2015learning}, TransD \cite{ji2015knowledge}, etc. The tensor-based models, such as RESCAL \cite{nickel2011three}, NTN \cite{socher2013reasoning}, DISTMULT \cite{yang2015embedding} and HOLE \cite{nickel2016holographic}, are also effective but trained slowly. In this paper, we incorporate TransE and TransD as representative in our framework to handle representation learning of KGs. 
+
+\textbf{Representation Learning of Textual Relations.} Many works aim to extract relational facts from large-scale text corpora. Mintz \cite{mintz2009distant} is a traditional distant supervised model. Then MultiR \cite{hoffmann2011knowledge} proposes a multi-instance learning mechanism and MIML \cite{surdeanu2012multi} proposes a joint model for multiple relations. In recent years, deep neural models such as convolutional neural networks (CNN) \cite{zeng2014relation,zeng2015distant}, recurrent neural networks (RNN) \cite{zhang2015relation} and long short-term memory networks (LSTM) \cite{xu2015classifying,miwa2016end} have been proposed to encode semantics of sentences, and identify relations between entities in the given sentences. As compared to conventional models, neural models are capable of accurately capturing textual relations without explicit linguistic analysis. In this paper, we apply CNN to embed textual relations due to its time efficiency.
+
+\textbf{Joint Learning for Knowledge Acquisition.} Some works attempt to combine KGs and text for KA. \cite{weston2013connecting} simply combines TransE and the text model via summing up their ranking scores for predictions, which can get an amazing performance in RE. \cite{riedel2013relation} proposes universal schema, which uses a soft joint mechanism to share information between relation types of KGs and textual patterns of text via common entity pairs. \cite{vergaEtAl} further incorporates neural networks into universal schema to relax constraints imposed by the entity pairs for RE. For the task of KGC, \cite{wang2014knowledge} trains words in text and entities in KGs at the same time so that they can share parameters during their training. \cite{xie2016representation,wang2016text,wu2016knowledge} use neural networks to embed text descriptions into KG embedding spaces. \cite{toutanova2015representing} extracts textual relations using dependency parsing to incorporate text into DISTMULT. These hard joint models fuse the aligned features and enhance entity and relation embeddings. In this paper, we incorporate the existing models for KA to build a soft joint learning framework, which directly mines semantics from the sentences themselves and aligns words, entities, and relations at the same time.
+
+\textbf{Neural Networks with Attention.} The attention mechanism is implemented to select important hidden features in text, which is first incorporated in neural networks for machine translation by \cite{bahdanau2014neural}. In KA, \cite{lin2016neural,luo-EtAl:2017:Long} build a global sentence-level attention over multiple instances to reduce weights of noisy instances for RE. \cite{vergamccallum} use neural networks with attention to merge similar semantics patterns in universal schema. In this paper, we propose an alternating forward attention for our joint models. On the one hand, our attention mechanism combines models and serves as a channel for information sharing. On the other hand, the attention mechanism lets representation models of KGs and text take advantage of additional information for mutual noise reduction. Models under the joint framework enhance each other during the alternating forward training process.
+
+
+\section{Conclusion and Future Work}
+
+In this paper, we propose a general framework for joint representation learning of KGs and text. Our joint framework embeds entities, relations and words within a unified continuous latent space. More specifically, we adopt the KG-Text alignment and the knowledge-based attention to exchange information between the knowledge model and the text model so that we can fuse KGs and text. On both RE and KGC, experiment results show that the joint learning framework can effectively perform representation learning for both the KG and text, and obtain more discriminative embeddings for knowledge acquisition. By incorporating different knowledge representation learning models, we show that the framework is open to existing models. In the future, we will explore to adopt RNN or LSTM for encoding textual relations in an efficient manner. To take more rich information especially some effective human-designed features as the guidance for our joint framework, such as relation paths in KGs, is also necessary.
+
+\bibliography{aaai2018}
+\bibliographystyle{aaai}
+\end{document}
